@@ -1,0 +1,35 @@
+[
+  {
+    "_id": "6e669644-4ea1-4fb6-927f-5c020e1cb0f3",
+    "colId": "b284a629-0268-4f59-b59e-defca1449339",
+    "containerId": "",
+    "name": "get prod",
+    "url": "http://localhost:3000/api/v1/products",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2022-08-10T21:36:22.230Z",
+    "modified": "2022-08-10T21:36:55.260Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "fb8f5464-cf00-42d6-958d-3fe02d9c98f4",
+    "colId": "b284a629-0268-4f59-b59e-defca1449339",
+    "containerId": "",
+    "name": "post product",
+    "url": "http://localhost:3000/api/v1/products",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2022-08-10T21:42:46.231Z",
+    "modified": "2022-08-10T21:45:19.777Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"id\": 1,\n  \"name\": \"hair dresser\",\n  \"image\": \"some_url3\"\n}",
+      "form": []
+    },
+    "tests": []
+  }
+]
