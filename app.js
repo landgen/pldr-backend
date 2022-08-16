@@ -1,60 +1,47 @@
-const express = require("express");
-const morgan = require("morgan");
-const mongoose = require("mongoose");
-require("dotenv/config");
-
+const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const mongoose = require('mongoose');
+const cors = require('cors');
+require('dotenv/config');
+
+app.use(cors());
+app.options('*', cors())
+
+//middleware
+app.use(bodyParser.json());
+app.use(morgan('tiny'));
+
+
+//Routes
+const categoriesRoutes = require('./routes/categories');
+const productsRoutes = require('./routes/products');
+const usersRoutes = require('./routes/users');
+const ordersRoutes = require('./routes/orders');
 
 const api = process.env.API_URL;
-app.use(morgan("tiny"));
 
-const ProductSchema = mongoose.Schema({
-  name: String,
-  length: { type: Number, required: true },
-});
-const Product = mongoose.model("Product", ProductSchema);
+app.use(`${api}/categories`, categoriesRoutes);
+app.use(`${api}/products`, productsRoutes);
+app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/orders`, ordersRoutes);
 
-app.get(`${api}/products`, async (req, res) => {
-  const productList = await Product.find();
-  if(!productList) {
-    res.status(500).json({success: false})
-  }
-  res.send(productList);
-});
-
-app.use(express.json());
-
-app.post(`${api}/products`, (req, res) => {
-  const newProduct = new Product({
-    name: req.body.name,
-    length: req.body.length,
-  });
-  newProduct
-    .save()
-    .then((createdProduct) => {
-      res.status(201).json(createdProduct);
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: err,
-        success: false,
-      });
-    });
-  res.send(newProduct);
-});
-mongoose
-  .connect(process.env.CONNECTION_STRING, {
+//Database
+mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: "pldr-db",
-  })
-  .then(() => {
-    console.log("connected to database pldr-db");
-  })
-  .catch((err) => {
+    dbName: 'eshop-database'
+})
+.then(()=>{
+    console.log('Database Connection is ready...')
+})
+.catch((err)=> {
     console.log(err);
-  });
-app.listen(3000, () => {
-  //console.log(api)
-  //console.log('localhost i s running on 3000')
-});
+})
+
+//Server
+app.listen(3000, ()=>{
+
+    console.log('server is running http://localhost:3000');
+})
